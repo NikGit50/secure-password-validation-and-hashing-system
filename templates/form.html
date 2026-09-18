@@ -5,87 +5,153 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Secure Password Validation & Hashing System</title>
     <style>
+        /* Modern CSS reset and smooth gradient background */
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f3f4f6;
+            font-family: 'Plus Jakarta Sans', 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #311042 100%);
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
-        }
-        .card {
-            background-color: #ffffff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            width: 100%;
-            max-width: 420px;
+            padding: 20px;
             box-sizing: border-box;
+            color: #f8fafc;
         }
+
+        /* Glassmorphism Card Container */
+        .card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 40px 30px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 440px;
+            box-sizing: border-box;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+        }
+
         h2 {
             margin-top: 0;
-            color: #1f2937;
+            margin-bottom: 8px;
+            color: #ffffff;
             text-align: center;
-            font-size: 24px;
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
         }
+
+        .subtitle {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 24px;
+            position: relative;
         }
+
         label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             font-weight: 600;
-            color: #4b5563;
+            font-size: 14px;
+            color: #cbd5e1;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
         }
+
+        /* Futuristic Input Field styling */
         input[type="password"] {
             width: 100%;
-            padding: 12px;
-            border: 1px solid #d1d5db;
-            border-radius: 6px;
+            padding: 14px 16px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
             box-sizing: border-box;
             font-size: 16px;
+            color: #ffffff;
             outline: none;
-            transition: border-color 0.2s;
+            transition: all 0.2s ease;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
         }
+
         input[type="password"]:focus {
-            border-color: #2563eb;
+            border-color: #6366f1;
+            background: rgba(15, 23, 42, 0.8);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.25), inset 0 2px 4px rgba(0, 0, 0, 0.2);
         }
+
+        /* Dynamic submission button */
         button {
             width: 100%;
-            padding: 12px;
-            background-color: #2563eb;
+            padding: 14px;
+            background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
             color: white;
             border: none;
-            border-radius: 6px;
+            border-radius: 10px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.2s;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
         }
+
         button:hover {
-            background-color: #1d4ed8;
+            background: linear-gradient(135deg, #4338ca 0%, #4f46e5 100%);
+            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
+            transform: translateY(-1px);
         }
+
+        button:active {
+            transform: translateY(1px);
+        }
+
+        /* Upgraded Alerts with better legibility */
         .alert {
-            margin-top: 20px;
-            padding: 14px;
-            border-radius: 6px;
+            margin-top: 24px;
+            padding: 16px;
+            border-radius: 12px;
             font-size: 14px;
-            line-height: 1.5;
+            line-height: 1.6;
             font-weight: 500;
+            animation: fadeIn 0.4s ease;
         }
-        /* Style for successful validation */
+
+        .alert strong {
+            display: block;
+            margin-bottom: 4px;
+            font-size: 15px;
+            font-weight: 700;
+        }
+
         .alert-success {
-            background-color: #d1fae5;
-            color: #065f46;
-            border: 1px solid #a7f3d0;
+            background-color: rgba(16, 185, 129, 0.15);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.3);
             word-break: break-all;
+            font-family: 'Courier New', Courier, monospace; /* Makes hash cleaner to read */
         }
-        /* Style for blocked/invalid validation */
+
         .alert-danger {
-            background-color: #fee2e2;
-            color: #991b1b;
-            border: 1px solid #fca5a5;
+            background-color: rgba(239, 68, 68, 0.15);
+            color: #f87171;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
@@ -93,26 +159,28 @@
 
 <div class="card">
     <h2>Secure Password System</h2>
+    <div class="subtitle">Cryptographic Hashing & Policy Validation</div>
     
-    <!-- Action attribute sends data straight to your /submit route -->
+    <!-- Submits directly to your root Flask route -->
     <form action="/" method="POST">
         <div class="form-group">
-            <label for="password">Create a Password</label>
-            <!-- The name="password" attribute connects directly to request.form.get('password') -->
-            <input type="password" id="password" name="password" placeholder="Enter password..." required>
+            <label for="password">Create Password</label>
+            <input type="password" id="password" name="password" placeholder="••••••••••••" required autocomplete="new-password">
         </div>
         <button type="submit">Validate & Hash</button>
     </form>
 
-    <!-- Jinja logic handles formatting the message passed by Python -->
+    <!-- Dynamic Jinja parsing from your Python script output -->
     {% if message %}
         {% if "Password is valid" in message %}
             <div class="alert alert-success">
-                <strong>Success!</strong> {{ message }}
+                <strong>🛡️ System Authorization Granted</strong> 
+                {{ message }}
             </div>
         {% else %}
             <div class="alert alert-danger">
-                <strong>Validation Failed:</strong> {{ message }}
+                <strong>⚠️ Security Policy Violation</strong> 
+                {{ message }}
             </div>
         {% endif %}
     {% endif %}
@@ -120,3 +188,4 @@
 
 </body>
 </html>
+
