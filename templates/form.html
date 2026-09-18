@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Password Validation & Hashing System</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f3f4f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .card {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            width: 100%;
+            max-width: 420px;
+            box-sizing: border-box;
+        }
+        h2 {
+            margin-top: 0;
+            color: #1f2937;
+            text-align: center;
+            font-size: 24px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #4b5563;
+        }
+        input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        input[type="password"]:focus {
+            border-color: #2563eb;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        button:hover {
+            background-color: #1d4ed8;
+        }
+        .alert {
+            margin-top: 20px;
+            padding: 14px;
+            border-radius: 6px;
+            font-size: 14px;
+            line-height: 1.5;
+            font-weight: 500;
+        }
+        /* Style for successful validation */
+        .alert-success {
+            background-color: #d1fae5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+            word-break: break-all;
+        }
+        /* Style for blocked/invalid validation */
+        .alert-danger {
+            background-color: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fca5a5;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Secure Password System</h2>
+    
+    <!-- Action attribute sends data straight to your /submit route -->
+    <form action="/" method="POST">
+        <div class="form-group">
+            <label for="password">Create a Password</label>
+            <!-- The name="password" attribute connects directly to request.form.get('password') -->
+            <input type="password" id="password" name="password" placeholder="Enter password..." required>
+        </div>
+        <button type="submit">Validate & Hash</button>
+    </form>
+
+    <!-- Jinja logic handles formatting the message passed by Python -->
+    {% if message %}
+        {% if "Password is valid" in message %}
+            <div class="alert alert-success">
+                <strong>Success!</strong> {{ message }}
+            </div>
+        {% else %}
+            <div class="alert alert-danger">
+                <strong>Validation Failed:</strong> {{ message }}
+            </div>
+        {% endif %}
+    {% endif %}
+</div>
+
+</body>
+</html>
